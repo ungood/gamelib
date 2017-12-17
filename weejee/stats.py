@@ -27,14 +27,17 @@ class GameBucketScore(Score):
         return "{:01.2f} - {}".format(self.score, self.game.name)
 
 class Bucket(object):
-    def __init__(self, *criteria):
-        self.criteria = criteria
+    def __init__(self, criteria):
+        self.criteria = list(criteria)
         
     def score(self, game):
         return GameBucketScore(game, self)
         
     def __str__(self):
         return ', '.join(str(c) for c in self.criteria)
+        
+    def __iter__(self):
+        return iter([])
 
 class Group(object):
     def __init__(self, name, *criteria_iterables):
@@ -42,3 +45,9 @@ class Group(object):
         self.buckets = []
         for criteria in itertools.product(*criteria_iterables):
             self.buckets.append(Bucket(criteria))
+            
+    def __str__(self):
+        return self.name
+        
+    def __iter__(self):
+        return iter(self.buckets)

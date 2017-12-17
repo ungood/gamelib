@@ -1,0 +1,24 @@
+#!/usr/bin/env python
+
+import boardgamegeek as bgg
+import argparse
+from scipy.stats import norm
+
+TTL = 15 * 60
+
+# Cache BGG requests for 15 minutes
+cache = bgg.CacheBackendSqlite('cache.db', TTL)
+client = bgg.BGGClient(cache=cache)
+
+parser = argparse.ArgumentParser(description='Prints stats for a user collection.')
+parser.add_argument('--user', type=str, required=True)
+args = parser.parse_args()
+
+rated = client.collection(user=args.user, rated=True)
+rated_count = len(rated)
+ideal = norm(scale=6, loc=2)
+
+for user_game in rated:
+    rating
+
+pprint(game.data())

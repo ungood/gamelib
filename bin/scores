@@ -1,14 +1,19 @@
-import boardgamegeek as bgg
-from pprint import pprint
+#!/usr/bin/env python
 
+from pprint import pprint
 from gamelib import criteria, stats
 
-TTL = 15 * 60
-USER = 'ungood'
 
-# Cache BGG requests for 15 minutes
-cache = bgg.CacheBackendSqlite('cache.db', TTL)
-client = bgg.BGGClient(cache=cache)
+
+rated = client.collection(
+
+def print_recurse(obj, max_levels, level=0):
+    if level >= max_levels:
+        return
+    
+    print(('  ' * level) + str(obj))
+    for child in obj:
+        print_recurse(child, max_levels, level + 1)
 
 #pprint(client.game('Railways of the World').data())
 
@@ -17,15 +22,14 @@ three = criteria.NumberPlayers(3)
 
 def players(min, max):
     for players in range(min, max+1):
-        yield criteria.NumberPlayers(3)
+        yield criteria.NumberPlayers(players)
     
     
 lunch_games = stats.Group('Board Game Lunch',
     [criteria.MaxPlaytime(45)],
     players(2, 6))
 
-for bucket in lunch_games.buckets:
-    print(bucket)
+print_recurse(lunch_games, 2)
 
 #scores = []
 #for user_game in client.collection(USER, own=True):
