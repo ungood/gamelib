@@ -6,15 +6,11 @@ from pprint import pprint
 
 parser = argparse.ArgumentParser(description='Dump data from BGG')
 parser.add_argument('--name', type=str)
-parser.add_argument('--id', type=int)
+parser.add_argument('--id', type=int, dest='game_id')
+parser.add_argument('--historical', action="store_true")
+parser.add_argument('--marketplace', action="store_true")
 args = parser.parse_args()
 
+game = client.game(**vars(args))
 
-if args.id is not None:
-    game = client.game(id=args.id)
-elif args.name is not None:
-    game = client.game(args.name)
-else:
-    parser.error('Must specify name or id.')
-
-pprint(game.data())
+pprint(game)

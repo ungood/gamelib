@@ -1,0 +1,17 @@
+#!/usr/bin/env python
+
+from weejee import client
+import argparse
+from pprint import pprint
+
+parser = argparse.ArgumentParser(description='Recommend prices for board games in trade list.')
+parser.add_argument('--user', type=str, required=True)
+parser.add_argument('--markdown', type=float, required=True)
+args = parser.parse_args()
+
+print('Getting collection and looking up prices.')
+
+collection = client.collection(args.user, trade=True)
+
+user_game = iter(collection).next()
+game = client.game(game_id=user_game.id, historical=True)
